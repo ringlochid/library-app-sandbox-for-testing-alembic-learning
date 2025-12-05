@@ -1,0 +1,1 @@
+# practice using alembic bad_table -> BCNF, with millions data preserved

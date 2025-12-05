@@ -52,11 +52,13 @@ def upgrade() -> None:
 
             'Author ' || substr(md5((i::text || 'author')::text), 1, 8) AS author_name,
 
-            (ARRAY['US','UK','AU','CA','CN','JP','FR','DE']
-              [1 + floor(random() * 8)])::text AS author_country,
+            (ARRAY['US','UK','AU','CA','CN','JP','FR','DE'])[
+                (1 + floor(random() * 8))::int
+            ] AS author_country,
 
-            (ARRAY['Fantasy','Sci-Fi','Romance','Non-Fiction','Mystery','Horror']
-              [1 + floor(random() * 6)])::text AS genre_name,
+            (ARRAY['Fantasy','Sci-Fi','Romance','Non-Fiction','Mystery','Horror'])[
+                (1 + floor(random() * 6))::int
+            ] AS genre_name,
 
             (floor(random() * 5)::int + 1) AS rating,
 
@@ -71,6 +73,12 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     """Downgrade schema."""
-    op.execute(sa.text("""DELETE FROM book_reviews_flat WEHERE user_name like 'seed_user_type1_%'
-                       AND user_email like 'seed_user_type1_%@example.com'
-                       """))
+    op.execute(
+        sa.text(
+            """
+            DELETE FROM book_reviews_flat
+            WHERE user_name LIKE 'seed_user_type1_%'
+              AND user_email LIKE 'seed_user_type1_%@example.com';
+            """
+        )
+    )

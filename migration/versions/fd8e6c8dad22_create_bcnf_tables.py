@@ -28,8 +28,7 @@ def upgrade() -> None:
     sa.Column('author_name', sa.TEXT(), nullable=False),
     sa.Column('genre_name', sa.TEXT(), nullable=True),
     sa.CheckConstraint('book_isbn IS NULL OR char_length(book_isbn) IN (10, 13)', name='checkbi_books_15'),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('book_isbn', name='uq_books_isbn_not_null')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_index('ix_book_id_fill70', 'books', ['id'], unique=False, postgresql_with={'fillfactor': 70})
     op.create_table('users',

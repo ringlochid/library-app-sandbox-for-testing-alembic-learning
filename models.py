@@ -57,10 +57,6 @@ class Book(Base):
                             "book_isbn IS NULL OR char_length(book_isbn) IN (10, 13)",
                             name="checkbi_books_15",
                         ),
-                        UniqueConstraint(
-                            "book_isbn",
-                            name="uq_books_isbn_not_null",
-                        ),
                         Index(
                             "ix_book_id_fill70",
                             "id",
